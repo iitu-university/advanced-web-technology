@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Search and explore public GitHub repositories.">
+  <title>GitHub Repository Explorer</title>
+  <link rel="preconnect" href="https://api.github.com">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="GitHub Explorer home">
+        <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+        GitHub Explorer
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#search">Search</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-content">
+        <p class="eyebrow">PUBLIC REPOSITORY SEARCH</p>
+        <h1 id="hero-title">Find the code behind any public <span>GitHub profiles.</span></h1>
+        <p class="intro">Search any GitHub developer and browse their public repositories, languages, and stars in one place.</p>
+      </div>
+    </section>
+
+    <section id="search" class="search-section container" aria-labelledby="search-title">
+      <div class="section-heading">
+        <h2 id="search-title">Explore repositories</h2>
+        <p>Enter a GitHub username to get started.</p>
+      </div>
+      <form id="search-form" class="search-form" novalidate>
+        <label for="username">GitHub username</label>
+        <div class="input-row">
+          <input id="username" name="username" type="text" placeholder="e.g. octocat" autocomplete="username" required maxlength="39" aria-describedby="form-message">
+          <button type="submit">Search <span aria-hidden="true">→</span></button>
+        </div>
+        <p id="form-message" class="form-message" role="alert" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="results" class="results-section container" aria-labelledby="results-title">
+      <div class="results-topline">
+        <div>
+          <p class="eyebrow">RESULTS</p>
+          <h2 id="results-title">Repositories</h2>
+          <p id="result-summary" class="result-summary">Search for a GitHub user to see their repositories.</p>
+        </div>
+        <div id="controls" class="controls" hidden>
+          <label for="language-filter">Language
+            <select id="language-filter">
+              <option value="all">All languages</option>
+            </select>
+          </label>
+          <label for="sort-by">Sort by
+            <select id="sort-by">
+              <option value="name-asc">Name (A–Z)</option>
+              <option value="stars-desc">Most stars</option>
+              <option value="stars-asc">Fewest stars</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <div id="repository-grid" class="repository-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="container about-content">
+        <p class="eyebrow">ABOUT</p>
+        <h2>A simple window into open source.</h2>
+        <p>GitHub Explorer uses the public GitHub REST API to retrieve and organize repository information. Your most recent search is saved locally in your browser for convenience.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p>Built with the GitHub REST API · GitHub Explorer</p></div>
+  </footer>
+  <script src="js/script.js"></script>
+</body>
+</html>
