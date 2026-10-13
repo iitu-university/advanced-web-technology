@@ -1,0 +1,730 @@
+{
+  "checkedAt": "2026-10-13T17:39:07.211Z",
+  "chromium": "153.0.8010.52",
+  "results": [
+    {
+      "name": "working",
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "163",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "163",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 422,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "153",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+            "access-control-allow-origin": "http://localhost:3000",
+            "access-control-max-age": "600",
+            "content-length": "2",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 201,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "58",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+            "access-control-allow-origin": "http://localhost:3000",
+            "access-control-max-age": "600",
+            "content-length": "2",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 201,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "58",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "1016",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses?is_elective=true",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "321",
+            "date": "Tue, 13 Oct 2026 17:38:49 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        }
+      ],
+      "console": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+      ],
+      "passed": true
+    },
+    {
+      "name": "no-cors",
+      "origin": "http://localhost:3000",
+      "serverLikes": 22,
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 405,
+          "responseHeaders": {
+            "allow": "POST",
+            "content-length": "31",
+            "content-type": "application/json",
+            "date": "Tue, 13 Oct 2026 17:38:50 GMT",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "PreflightMissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        }
+      ],
+      "console": [
+        "Access to fetch at 'http://localhost:8000/courses/web-security/like' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/enrollments' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/courses' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "manualPreflight": {
+        "status": 405,
+        "headers": {
+          "allow": "POST",
+          "content-length": "31",
+          "content-type": "application/json",
+          "date": "Tue, 13 Oct 2026 17:38:50 GMT",
+          "server": "uvicorn"
+        },
+        "body": "{\"detail\":\"Method Not Allowed\"}"
+      },
+      "passed": true
+    },
+    {
+      "name": "trailing-slash",
+      "origin": "http://localhost:3000",
+      "serverLikes": 22,
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 400,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+            "access-control-max-age": "600",
+            "content-length": "22",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:52 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "PreflightMissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        }
+      ],
+      "console": [
+        "Access to fetch at 'http://localhost:8000/courses/web-security/like' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/enrollments' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/courses' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "manualPreflight": {
+        "status": 400,
+        "headers": {
+          "access-control-allow-headers": "content-type",
+          "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+          "access-control-max-age": "600",
+          "content-length": "22",
+          "content-type": "text/plain; charset=utf-8",
+          "date": "Tue, 13 Oct 2026 17:38:52 GMT",
+          "server": "uvicorn",
+          "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+        },
+        "body": "Disallowed CORS origin"
+      },
+      "passed": true
+    },
+    {
+      "name": "no-methods",
+      "origin": "http://localhost:3000",
+      "serverLikes": 22,
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "163",
+            "date": "Tue, 13 Oct 2026 17:38:53 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 400,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "GET",
+            "access-control-allow-origin": "http://localhost:3000",
+            "access-control-max-age": "600",
+            "content-length": "22",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:53 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "PreflightInvalidStatus",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "1016",
+            "date": "Tue, 13 Oct 2026 17:38:53 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        }
+      ],
+      "console": [
+        "Access to fetch at 'http://localhost:8000/enrollments' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "manualPreflight": {
+        "status": 400,
+        "headers": {
+          "access-control-allow-headers": "content-type",
+          "access-control-allow-methods": "GET",
+          "access-control-allow-origin": "http://localhost:3000",
+          "access-control-max-age": "600",
+          "content-length": "22",
+          "content-type": "text/plain; charset=utf-8",
+          "date": "Tue, 13 Oct 2026 17:38:53 GMT",
+          "server": "uvicorn",
+          "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+        },
+        "body": "Disallowed CORS method"
+      },
+      "passed": true
+    },
+    {
+      "name": "foreign-origin",
+      "origin": "http://127.0.0.1:3000",
+      "serverLikes": 22,
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://127.0.0.1:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://127.0.0.1:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 400,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+            "access-control-max-age": "600",
+            "content-length": "22",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:54 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://127.0.0.1:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "PreflightMissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://127.0.0.1:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        }
+      ],
+      "console": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Access to fetch at 'http://localhost:8000/courses/web-security/like' from origin 'http://127.0.0.1:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/enrollments' from origin 'http://127.0.0.1:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'http://localhost:8000/courses' from origin 'http://127.0.0.1:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "manualPreflight": {
+        "status": 400,
+        "headers": {
+          "access-control-allow-headers": "content-type",
+          "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+          "access-control-max-age": "600",
+          "content-length": "22",
+          "content-type": "text/plain; charset=utf-8",
+          "date": "Tue, 13 Oct 2026 17:38:54 GMT",
+          "server": "uvicorn",
+          "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+        },
+        "body": "Disallowed CORS origin"
+      },
+      "passed": true
+    },
+    {
+      "name": "python-error",
+      "origin": "http://localhost:3000",
+      "serverLikes": 22,
+      "network": [
+        {
+          "url": "http://localhost:8000/courses/web-security/like",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "163",
+            "date": "Tue, 13 Oct 2026 17:38:55 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "OPTIONS",
+          "requestHeaders": {
+            "Accept": "*/*",
+            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": "POST",
+            "Origin": "http://localhost:3000",
+            "Sec-Fetch-Mode": "cors",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+          },
+          "status": 200,
+          "responseHeaders": {
+            "access-control-allow-headers": "content-type",
+            "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+            "access-control-allow-origin": "http://localhost:3000",
+            "access-control-max-age": "600",
+            "content-length": "2",
+            "content-type": "text/plain; charset=utf-8",
+            "date": "Tue, 13 Oct 2026 17:38:55 GMT",
+            "server": "uvicorn",
+            "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+          }
+        },
+        {
+          "url": "http://localhost:8000/enrollments",
+          "method": "POST",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "status": 201,
+          "responseHeaders": {
+            "access-control-allow-origin": "http://localhost:3000",
+            "content-length": "58",
+            "date": "Tue, 13 Oct 2026 17:38:55 GMT",
+            "content-type": "application/json",
+            "vary": "Origin",
+            "server": "uvicorn"
+          }
+        },
+        {
+          "url": "http://localhost:8000/courses",
+          "method": "GET",
+          "requestHeaders": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "http://localhost:3000/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "error": "net::ERR_FAILED",
+          "corsError": {
+            "corsError": "MissingAllowOriginHeader",
+            "failedParameter": ""
+          }
+        }
+      ],
+      "console": [
+        "Access to fetch at 'http://localhost:8000/courses' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Error: Minified React error #441; visit https://react.dev/errors/441 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+        "Error: Minified React error #441; visit https://react.dev/errors/441 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ],
+      "manualPreflight": {
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "content-type",
+          "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+          "access-control-allow-origin": "http://localhost:3000",
+          "access-control-max-age": "600",
+          "content-length": "2",
+          "content-type": "text/plain; charset=utf-8",
+          "date": "Tue, 13 Oct 2026 17:38:56 GMT",
+          "server": "uvicorn",
+          "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+        },
+        "body": "OK"
+      },
+      "passed": true
+    },
+    {
+      "name": "loading-and-retry",
+      "passed": true
+    }
+  ]
+}

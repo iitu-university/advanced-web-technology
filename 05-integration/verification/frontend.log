@@ -1,0 +1,64 @@
+▲ Next.js 16.4.0
+- Local:         http://localhost:3000
+- Network:       http://0.0.0.0:3000
+✓ Ready in 155ms
+✓ Running next.config.ts took 81ms
+⨯ Error: API error: 500
+    at e (.next/server/app/courses/[id]/page.js:1:18793)
+    at async s (.next/server/app/courses/page.js:1:12743) {
+  digest: '2035791938'
+}
+⨯ TypeError: fetch failed
+    at async e (.next/server/app/courses/[id]/page.js:1:18731)
+    at async s (.next/server/app/courses/page.js:1:12743) {
+  digest: '3281445316',
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [
+      Error: connect ECONNREFUSED ::1:8000
+          at ignore-listed frames {
+        errno: -61,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '::1',
+        port: 8000
+      },
+      Error: connect ECONNREFUSED 127.0.0.1:8000
+          at ignore-listed frames {
+        errno: -61,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '127.0.0.1',
+        port: 8000
+      }
+    ]
+  }
+}
+⨯ TypeError: fetch failed
+    at async f (.next/server/app/courses/[id]/page.js:1:18867)
+    at async l (.next/server/app/courses/[id]/page.js:1:3382) {
+  digest: '4151158505',
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [
+      Error: connect ECONNREFUSED ::1:8000
+          at ignore-listed frames {
+        errno: -61,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '::1',
+        port: 8000
+      },
+      Error: connect ECONNREFUSED 127.0.0.1:8000
+          at ignore-listed frames {
+        errno: -61,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '127.0.0.1',
+        port: 8000
+      }
+    ]
+  }
+}
