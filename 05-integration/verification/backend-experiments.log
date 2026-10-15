@@ -1,0 +1,297 @@
+=== working ===
+INFO:     Started server process [21846]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55282 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55288 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55288 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55312 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55312 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55288 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55312 - "OPTIONS /enrollments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55312 - "POST /enrollments HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55312 - "POST /enrollments HTTP/1.1" 201 Created
+INFO:     127.0.0.1:55282 - "GET /enrollments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55312 - "OPTIONS /enrollments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55314 - "POST /enrollments HTTP/1.1" 201 Created
+INFO:     127.0.0.1:55288 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55314 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55314 - "GET /courses?is_elective=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55288 - "GET /courses/does-not-exist HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21846]
+
+=== no-cors ===
+INFO:     Started server process [22105]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55320 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55324 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55337 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55320 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55337 - "OPTIONS /enrollments HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:55337 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55324 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55320 - "OPTIONS /enrollments HTTP/1.1" 405 Method Not Allowed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22105]
+
+=== trailing-slash ===
+INFO:     Started server process [22124]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55343 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55347 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55360 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55343 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55360 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55360 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55347 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55343 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22124]
+
+=== no-methods ===
+INFO:     Started server process [22137]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55366 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55370 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55383 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55366 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55383 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55383 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55370 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55366 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22137]
+
+=== working ===
+INFO:     Started server process [22154]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55389 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55392 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55400 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55389 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55400 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55400 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55392 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55389 - "OPTIONS /enrollments HTTP/1.1" 400 Bad Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22154]
+
+=== python-error ===
+INFO:     Started server process [22168]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55406 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55410 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55423 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55406 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55423 - "OPTIONS /enrollments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55423 - "POST /enrollments HTTP/1.1" 201 Created
+INFO:     127.0.0.1:55423 - "GET /courses HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1215, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1310, in handle
+    await super().handle(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 282, in handle
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 362, in run_endpoint_function
+    return await run_in_threadpool(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 2706, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1100, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/telemetry/_api.py", line 240, in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/private/var/folders/tt/hrfb1_zs5tgbvlnwnrzbzb4c0000gn/T/lab5-backend-7ckSDI/main.py", line 56, in list_courses
+    return courses[p["ofset"] : p["offset"] + p["limit"]]
+                   ~^^^^^^^^^
+KeyError: 'ofset'
+INFO:     127.0.0.1:55410 - "GET /courses HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1215, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1310, in handle
+    await super().handle(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 282, in handle
+    await self.app(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 362, in run_endpoint_function
+    return await run_in_threadpool(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 2706, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1100, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/fastapi/telemetry/_api.py", line 240, in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/private/var/folders/tt/hrfb1_zs5tgbvlnwnrzbzb4c0000gn/T/lab5-backend-7ckSDI/main.py", line 56, in list_courses
+    return courses[p["ofset"] : p["offset"] + p["limit"]]
+                   ~^^^^^^^^^
+KeyError: 'ofset'
+INFO:     127.0.0.1:55406 - "OPTIONS /enrollments HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22168]
+
+=== slow ===
+INFO:     Started server process [22208]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55431 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55435 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55435 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22208]
+
+=== working ===
+INFO:     Started server process [22238]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55457 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55459 - "GET /courses HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22238]
+
+=== working ===
+INFO:     Started server process [22261]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55469 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55473 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22261]
