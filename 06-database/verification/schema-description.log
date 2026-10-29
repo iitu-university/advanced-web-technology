@@ -1,0 +1,63 @@
+ server_version
+----------------
+ 18.6
+(1 row)
+
+ current_database | current_user
+------------------+--------------
+ lab6_verify      | catalog_app
+(1 row)
+
+               List of tables
+ Schema |    Name     | Type  |    Owner
+--------+-------------+-------+-------------
+ public | courses     | table | catalog_app
+ public | enrollments | table | catalog_app
+ public | students    | table | catalog_app
+(3 rows)
+
+                 Table "public.courses"
+   Column    |  Type   | Collation | Nullable | Default
+-------------+---------+-----------+----------+---------
+ id          | text    |           | not null |
+ title       | text    |           | not null |
+ description | text    |           | not null |
+ credits     | integer |           | not null |
+ is_elective | boolean |           | not null | false
+ likes       | integer |           | not null | 0
+Indexes:
+    "courses_pkey" PRIMARY KEY, btree (id)
+Check constraints:
+    "courses_credits_check" CHECK (credits > 0)
+    "courses_likes_check" CHECK (likes >= 0)
+Referenced by:
+    TABLE "enrollments" CONSTRAINT "enrollments_course_id_fkey" FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE RESTRICT
+
+                        Table "public.students"
+ Column |  Type  | Collation | Nullable |           Default
+--------+--------+-----------+----------+------------------------------
+ id     | bigint |           | not null | generated always as identity
+ name   | text   |           | not null |
+ email  | text   |           | not null |
+Indexes:
+    "students_pkey" PRIMARY KEY, btree (id)
+    "students_email_key" UNIQUE CONSTRAINT, btree (email)
+Check constraints:
+    "students_name_check" CHECK (char_length(name) >= 2)
+Referenced by:
+    TABLE "enrollments" CONSTRAINT "enrollments_student_id_fkey" FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+
+                                  Table "public.enrollments"
+   Column    |           Type           | Collation | Nullable |           Default
+-------------+--------------------------+-----------+----------+------------------------------
+ id          | bigint                   |           | not null | generated always as identity
+ course_id   | text                     |           | not null |
+ student_id  | bigint                   |           | not null |
+ enrolled_at | timestamp with time zone |           | not null | now()
+Indexes:
+    "enrollments_pkey" PRIMARY KEY, btree (id)
+    "enrollments_course_id_student_id_key" UNIQUE CONSTRAINT, btree (course_id, student_id)
+    "enrollments_student_id_idx" btree (student_id)
+Foreign-key constraints:
+    "enrollments_course_id_fkey" FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE RESTRICT
+    "enrollments_student_id_fkey" FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE

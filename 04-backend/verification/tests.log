@@ -17,6 +17,6 @@ test_unknown_integrity_error_is_not_disguised_as_user_error (test_api.ApiTests.t
 test_validation_and_retired_student_name_contract (test_api.ApiTests.test_validation_and_retired_student_name_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 4.136s
+Ran 17 tests in 4.007s
 
 OK

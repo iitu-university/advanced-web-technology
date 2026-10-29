@@ -37,8 +37,7 @@ Swagger: [http://localhost:8000/docs](http://localhost:8000/docs). In another te
 The initial migration creates the same three tables, constraint names, defaults and student index as Lab 6. An existing Lab 6 database already has these objects; applying 0001 to it gives DuplicateTable. Verify that it really matches the Lab 6 schema before marking it:
 
 ```bash
-# Use the pre-level model at commit 13bff42 for the initial names/model check,
-# or compare the existing database directly with ../06-database/schema.sql.
+# Compare the existing schema with migration 0001 and Lab 6's schema.sql first.
 alembic stamp 0001
 alembic upgrade head
 alembic check
@@ -147,7 +146,7 @@ The additional count trap was reproduced: `count(*)` reported 1 for each course 
 
 ## Reproduce the verification
 
-The old backend's nine tests passed before implementation. The updated suite has **17 passing integration tests** against PostgreSQL, including simultaneous likes and duplicate enrollment, zero-count statistics, validation, unknown-constraint 500, CORS, aliases, pagination and migration round trips. [Actual test output](verification/tests.log) records the run.
+The old backend's nine tests passed before implementation. The updated suite has **17 passing integration tests** against PostgreSQL, including simultaneous likes and duplicate enrollment, zero-count statistics, validation, unknown-constraint 500, CORS, aliases, pagination and migration round trips. [Actual test output](verification/tests.log) records the run. Swagger was also opened in a real browser and displayed all eight operations and their schemas.
 
 Create disposable databases as the administrator:
 

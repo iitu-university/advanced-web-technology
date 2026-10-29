@@ -170,4 +170,4 @@ LAB6_INDEX_DSN='postgresql://catalog_app:change-me@localhost:5432/idx_demo' \
 ../04-backend/.venv/bin/python experiments/verify.py
 ```
 
-The script refuses other database names and resets only the explicitly supplied disposable databases. The core SQL project needs only psql; Python is an optional experiment runner. There are at least six separate commits for this directory in the workspace history.
+The script refuses other database names and resets only the explicitly supplied disposable databases. In a standalone checkout, replace `../04-backend/.venv/bin/python` with a Python environment containing psycopg 3 (`python -m pip install 'psycopg[binary]'`). The core SQL project needs only psql; Python is an optional experiment runner. There are at least six separate commits for this directory in the workspace history.

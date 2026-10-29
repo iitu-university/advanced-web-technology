@@ -2,6 +2,7 @@
 import importlib.util
 import os
 import subprocess
+import sys
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -30,7 +31,7 @@ SEED = (ROOT / "seed.sql").read_text()
 
 def alembic(*args):
     result = subprocess.run(
-        [str(ROOT / ".venv/bin/alembic"), *args], cwd=ROOT,
+        [sys.executable, "-m", "alembic", *args], cwd=ROOT,
         capture_output=True, text=True, env={**os.environ, "DATABASE_URL": TEST_URL},
     )
     if result.returncode:
