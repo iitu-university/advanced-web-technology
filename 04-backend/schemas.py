@@ -20,6 +20,7 @@ class CourseOut(CamelModel):
     credits: int
     is_elective: bool
     likes: int
+    level: str
 
 
 class StudentIn(CamelModel):
