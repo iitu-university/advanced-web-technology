@@ -1,0 +1,44 @@
+psql:06-database/experiments/norm_demo.sql:2: NOTICE:  table "registrations" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+INSERT 0 6
+BEGIN
+UPDATE 1
+    course_id    |              course_title              
+-----------------+----------------------------------------
+ modern-frontend | Modern Frontend: React & Next.js
+ modern-frontend | Modern Frontend: React 19 & Next.js 16
+(2 rows)
+
+ROLLBACK
+BEGIN
+DELETE 1
+ id | student_name | student_email | course_id | course_title | credits 
+----+--------------+---------------+-----------+--------------+---------
+(0 rows)
+
+ROLLBACK
+BEGIN
+INSERT 0 1
+ student_name |  course_id   
+--------------+--------------
+              | web-security
+(1 row)
+
+ROLLBACK
+psql:06-database/schema.sql:2: NOTICE:  table "enrollments" does not exist, skipping
+psql:06-database/schema.sql:2: NOTICE:  table "students" does not exist, skipping
+psql:06-database/schema.sql:2: NOTICE:  table "courses" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+INSERT 0 3
+INSERT 0 3
+INSERT 0 6
+ courses | students | enrollments 
+---------+----------+-------------
+       3 |        3 |           6
+(1 row)
+
