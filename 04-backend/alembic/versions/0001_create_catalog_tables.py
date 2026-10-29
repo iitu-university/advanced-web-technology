@@ -1,7 +1,7 @@
 """create catalog tables
 
 Revision ID: 0001
-Revises: 
+Revises:
 Create Date: 2026-10-29 22:37:47.957166
 
 """

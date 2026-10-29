@@ -1,0 +1,20 @@
+{
+  "swagger_status": 200,
+  "operations": 8,
+  "beginner_ids": [
+    "ai-integration",
+    "api-design"
+  ],
+  "enrollment_before_restart": {
+    "id": 7,
+    "courseId": "web-security",
+    "studentId": 4,
+    "enrolledAt": "2026-10-29T22:43:56.417445+05:00"
+  },
+  "first_pid": 36851,
+  "second_pid": 36863,
+  "likes_after_restart": 22,
+  "enrollments_after_restart": 7,
+  "error_check": "5 of 5 as expected",
+  "passed": true
+}

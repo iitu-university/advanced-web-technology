@@ -1,0 +1,32 @@
+INFO:     Started server process [36851]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:61720 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /courses?level=beginner HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "POST /courses/web-security/like HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "POST /students HTTP/1.1" 201 Created
+INFO:     127.0.0.1:61721 - "POST /enrollments HTTP/1.1" 201 Created
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [36851]
+INFO:     Started server process [36863]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:61727 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61728 - "GET /courses/web-security HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61728 - "GET /enrollments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61728 - "GET /stats/courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61730 - "POST /students HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:61730 - "POST /enrollments HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:61730 - "POST /enrollments HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61730 - "POST /enrollments HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61730 - "POST /students HTTP/1.1" 422 Unprocessable Entity
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [36863]

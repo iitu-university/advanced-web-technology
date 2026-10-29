@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-10-29T17:42:11.467768+00:00",
+  "experiments": [
+    {
+      "number": 1,
+      "title": "changed naming convention",
+      "observation": "students_email_unique/enrollments_course_id_unique differ from the database"
+    },
+    {
+      "number": 2,
+      "title": "removed Pydantic min_length",
+      "observation": "HTTP 500; students_name_check rejected the row"
+    },
+    {
+      "number": 3,
+      "title": "misspelled constraint dictionary key",
+      "observation": "HTTP 500; actual name is students_email_key"
+    },
+    {
+      "number": 4,
+      "title": "database title nullability and type drift",
+      "observation": "alembic check: modify_nullable, then modify_type; clean after restoration"
+    },
+    {
+      "number": 5,
+      "title": "naive required column on existing rows",
+      "observation": "NotNullViolation; revision stayed 0001; three-step migration succeeded"
+    },
+    {
+      "number": 6,
+      "title": "removed import models",
+      "observation": "empty metadata proposed dropping all three tables; draft was never applied"
+    },
+    {
+      "number": 7,
+      "title": "added model phone without migration",
+      "observation": "alembic check reported added column students.phone"
+    },
+    {
+      "number": 8,
+      "title": "two migration heads",
+      "observation": "upgrade head refused; a merge revision with parents 0003 and 0004 produced one head"
+    }
+  ],
+  "count_trap": [
+    [
+      "ai-integration",
+      3,
+      3
+    ],
+    [
+      "api-design",
+      1,
+      0
+    ],
+    [
+      "backend-fastapi",
+      1,
+      1
+    ],
+    [
+      "databases-postgresql",
+      1,
+      0
+    ],
+    [
+      "modern-frontend",
+      2,
+      2
+    ],
+    [
+      "web-security",
+      1,
+      0
+    ]
+  ],
+  "final_counts": [
+    6,
+    3,
+    6
+  ]
+}
