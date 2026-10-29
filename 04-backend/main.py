@@ -3,12 +3,20 @@ from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import select, update
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
 
 from db import get_db
-from models import Course
-from schemas import CourseOut
+from models import Course, Enrollment, Student
+from schemas import (
+    CourseOut,
+    CourseStats,
+    EnrollmentDetail,
+    EnrollmentIn,
+    EnrollmentOut,
+    StudentIn,
+    StudentOut,
+)
 
 
 app = FastAPI(title="Course Catalog API")
@@ -78,3 +86,48 @@ def like_course(course_id: str, db: SessionDep):
         raise HTTPException(status_code=404, detail="Course not found")
     db.commit()
     return course
+
+
+@app.post("/students", response_model=StudentOut, status_code=201)
+def create_student(data: StudentIn, db: SessionDep):
+    student = Student(name=data.name, email=data.email)
+    db.add(student)
+    db.commit()
+    return student
+
+
+@app.post("/enrollments", response_model=EnrollmentOut, status_code=201)
+def create_enrollment(data: EnrollmentIn, db: SessionDep):
+    enrollment = Enrollment(course_id=data.course_id, student_id=data.student_id)
+    db.add(enrollment)
+    db.commit()
+    return enrollment
+
+
+@app.get("/enrollments", response_model=list[EnrollmentDetail])
+def list_enrollments(db: SessionDep):
+    stmt = (
+        select(
+            Enrollment.id,
+            Enrollment.course_id,
+            Course.title.label("course_title"),
+            Enrollment.student_id,
+            Student.name.label("student_name"),
+            Enrollment.enrolled_at,
+        )
+        .join(Enrollment.course)
+        .join(Enrollment.student)
+        .order_by(Enrollment.id)
+    )
+    return db.execute(stmt).all()
+
+
+@app.get("/stats/courses", response_model=list[CourseStats])
+def course_stats(db: SessionDep):
+    stmt = (
+        select(Course.id.label("course_id"), func.count(Enrollment.id).label("enrolled"))
+        .outerjoin(Course.enrollments)
+        .group_by(Course.id)
+        .order_by(func.count(Enrollment.id).desc(), Course.id)
+    )
+    return db.execute(stmt).all()
