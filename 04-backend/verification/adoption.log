@@ -96,16 +96,16 @@ Traceback (most recent call last):
   File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
     raise ex.with_traceback(None)
 sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateTable) relation "courses" already exists
-[SQL: 
+[SQL:
 CREATE TABLE courses (
-	id TEXT NOT NULL, 
-	title TEXT NOT NULL, 
-	description TEXT NOT NULL, 
-	credits INTEGER NOT NULL, 
-	is_elective BOOLEAN DEFAULT false NOT NULL, 
-	likes INTEGER DEFAULT 0 NOT NULL, 
-	CONSTRAINT courses_pkey PRIMARY KEY (id), 
-	CONSTRAINT courses_credits_check CHECK (credits > 0), 
+	id TEXT NOT NULL,
+	title TEXT NOT NULL,
+	description TEXT NOT NULL,
+	credits INTEGER NOT NULL,
+	is_elective BOOLEAN DEFAULT false NOT NULL,
+	likes INTEGER DEFAULT 0 NOT NULL,
+	CONSTRAINT courses_pkey PRIMARY KEY (id),
+	CONSTRAINT courses_credits_check CHECK (credits > 0),
 	CONSTRAINT courses_likes_check CHECK (likes >= 0)
 )
 

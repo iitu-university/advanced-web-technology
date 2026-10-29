@@ -11,4 +11,3 @@ ALTER TABLE courses ALTER COLUMN level SET NOT NULL;
 UPDATE alembic_version SET version_num='0002' WHERE alembic_version.version_num = '0001';
 
 COMMIT;
-
