@@ -1,11 +1,14 @@
 import os
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import select, update
+from sqlalchemy.orm import Session
 
-from data import find_course, get_all_courses
-from schemas import Course, Enrollment, EnrollmentIn
+from db import get_db
+from models import Course
+from schemas import CourseOut
 
 
 app = FastAPI(title="Course Catalog API")
@@ -17,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-ENROLLMENTS: list[Enrollment] = []
+SessionDep = Annotated[Session, Depends(get_db)]
 
 
 @app.get("/")
@@ -32,60 +35,46 @@ def pagination(
     return {"offset": (page - 1) * page_size, "limit": page_size}
 
 
-@app.get("/courses", response_model=list[Course])
+@app.get("/courses", response_model=list[CourseOut])
 def list_courses(
+    db: SessionDep,
     is_elective: bool | None = None,
     sort: Literal["popular", "title"] = "popular",
     q: str | None = None,
     p: dict[str, int] = Depends(pagination),
-) -> list[Course]:
-    courses = get_all_courses()
-
+):
+    stmt = select(Course)
     if is_elective is not None:
-        courses = [course for course in courses if course.is_elective == is_elective]
-
+        stmt = stmt.where(Course.is_elective == is_elective)
     if q is not None:
-        query = q.casefold()
-        courses = [course for course in courses if query in course.title.casefold()]
-
+        # Preserve the Lab 4 literal substring search, escaping SQL LIKE wildcards.
+        query = q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        stmt = stmt.where(Course.title.ilike(f"%{query}%", escape="\\"))
     if sort == "title":
-        courses = sorted(courses, key=lambda course: course.title)
+        stmt = stmt.order_by(Course.title, Course.id)
     else:
-        courses = sorted(courses, key=lambda course: course.likes, reverse=True)
+        stmt = stmt.order_by(Course.likes.desc(), Course.id)
+    return db.scalars(stmt.limit(p["limit"]).offset(p["offset"])).all()
 
-    return courses[p["offset"] : p["offset"] + p["limit"]]
 
-
-@app.get("/courses/{course_id}", response_model=Course)
-def get_course(course_id: str) -> Course:
-    course = find_course(course_id)
+@app.get("/courses/{course_id}", response_model=CourseOut)
+def get_course(course_id: str, db: SessionDep):
+    course = db.get(Course, course_id)
     if course is None:
         raise HTTPException(status_code=404, detail="Course not found")
     return course
 
 
-@app.post("/courses/{course_id}/like", response_model=Course)
-def like_course(course_id: str) -> Course:
-    course = find_course(course_id)
-    if course is None:
-        raise HTTPException(status_code=404, detail="Course not found")
-    course.likes += 1
-    return course
-
-
-@app.post("/enrollments", response_model=Enrollment, status_code=201)
-def create_enrollment(data: EnrollmentIn) -> Enrollment:
-    if find_course(data.course_id) is None:
-        raise HTTPException(status_code=404, detail="Course not found")
-    enrollment = Enrollment(
-        id=len(ENROLLMENTS) + 1,
-        course_id=data.course_id,
-        student_name=data.student_name,
+@app.post("/courses/{course_id}/like", response_model=CourseOut)
+def like_course(course_id: str, db: SessionDep):
+    stmt = (
+        update(Course)
+        .where(Course.id == course_id)
+        .values(likes=Course.likes + 1)
+        .returning(Course)
     )
-    ENROLLMENTS.append(enrollment)
-    return enrollment
-
-
-@app.get("/enrollments", response_model=list[Enrollment])
-def list_enrollments() -> list[Enrollment]:
-    return ENROLLMENTS
+    course = db.scalars(stmt).one_or_none()
+    if course is None:
+        raise HTTPException(status_code=404, detail="Course not found")
+    db.commit()
+    return course
