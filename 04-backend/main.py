@@ -5,7 +5,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from data import find_course, get_all_courses
-from models import Course, Enrollment, EnrollmentIn
+from schemas import Course, Enrollment, EnrollmentIn
 
 
 app = FastAPI(title="Course Catalog API")

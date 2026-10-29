@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 from data import COURSES
 from main import ENROLLMENTS, app
-from models import Course, EnrollmentIn
+from schemas import Course, EnrollmentIn
 
 
 class ApiTests(unittest.TestCase):
