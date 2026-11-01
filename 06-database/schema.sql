@@ -1,4 +1,3 @@
--- Lab 6 teaching schema. Re-running this file deletes the existing catalog data.
 DROP TABLE IF EXISTS enrollments, students, courses;
 
 CREATE TABLE courses (
@@ -24,5 +23,4 @@ CREATE TABLE enrollments (
     UNIQUE (course_id, student_id)
 );
 
--- Foreign keys do not automatically create an index on the referencing column.
 CREATE INDEX enrollments_student_id_idx ON enrollments (student_id);

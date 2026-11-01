@@ -1,4 +1,3 @@
--- Run only in idx_demo, after schema.sql. Never load into course_catalog.
 INSERT INTO courses (id, title, description, credits)
 SELECT 'course-' || g, 'Course ' || g, 'Test', 3
 FROM generate_series(1, 500) AS g;

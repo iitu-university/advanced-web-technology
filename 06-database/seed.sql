@@ -1,4 +1,3 @@
--- Initial Lab 6 data. Run schema.sql first to create empty tables and identities.
 INSERT INTO courses (id, title, description, credits, is_elective, likes) VALUES
   ('modern-frontend', 'Modern Frontend: React & Next.js',
    'React 19, Server Components, and the App Router.', 5, false, 24),

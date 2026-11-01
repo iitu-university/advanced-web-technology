@@ -1,5 +1,3 @@
--- Lab 7 training reset: deletes all catalog data and restarts identities.
--- Apply Alembic migrations before running. Never use against production data.
 BEGIN;
 TRUNCATE enrollments, students, courses RESTART IDENTITY;
 

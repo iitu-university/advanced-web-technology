@@ -5,7 +5,6 @@ import { getCourse } from "@/lib/courses";
 import { LikeButton } from "@/components/LikeButton";
 import { EnrollForm } from "@/components/EnrollForm";
 
-// No generateStaticParams: course data is loaded at request time.
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const course = await getCourse(id);

@@ -52,6 +52,12 @@ erDiagram
     }
 ```
 
+The diagram source is also available as [er-diagram.mmd](er-diagram.mmd).
+
+![Course catalog ER diagram](er-diagram.png)
+
+The vector version is also available as [er-diagram.svg](er-diagram.svg).
+
 Courses and students have a many-to-many relationship through enrollments. Each enrollment has exactly one course and one student; the pair `(course_id, student_id)` is unique. Course and student facts are stored once in their own tables.
 
 All columns are required. Defaults are `false` for electives, `0` for likes, and `now()` for enrollment time. Credits must be positive, likes nonnegative, and student names at least two characters. Student and enrollment IDs use `bigint GENERATED ALWAYS AS IDENTITY`.

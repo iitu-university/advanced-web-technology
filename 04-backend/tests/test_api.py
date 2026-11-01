@@ -146,7 +146,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(len(self.client.get("/enrollments").json()), 6)
         created = self.client.post("/students", json={"name": "Valid User", "email": "valid@example.com"})
         self.assertEqual(created.status_code, 201)
-        self.assertGreater(created.json()["id"], 4)  # Failed inserts consume identities.
+        self.assertGreater(created.json()["id"], 4)
 
     def test_validation_and_retired_student_name_contract(self):
         for body in [{"name": "A", "email": "a@example.com"}, {"name": "Dana", "email": "invalid"}]:

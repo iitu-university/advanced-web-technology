@@ -88,7 +88,6 @@ def main():
             assert report["observer_before_commit"] == [0, 0]
             assert report["observer_after_commit"] == [1, 1]
             report["isolation"] = observer.execute("SHOW default_transaction_isolation").fetchone()[0]
-            # Bonus: both clients read 11 and write 12; one increment disappears.
             a = conn.execute("SELECT likes FROM courses WHERE id='api-design'").fetchone()[0]
             b = observer.execute("SELECT likes FROM courses WHERE id='api-design'").fetchone()[0]
             conn.execute("UPDATE courses SET likes=%s WHERE id='api-design'", (a + 1,))

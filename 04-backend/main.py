@@ -76,7 +76,6 @@ def list_courses(
     if level is not None:
         stmt = stmt.where(Course.level == level)
     if q is not None:
-        # Preserve the Lab 4 literal substring search, escaping SQL LIKE wildcards.
         query = q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
         stmt = stmt.where(Course.title.ilike(f"%{query}%", escape="\\"))
     if sort == "title":
