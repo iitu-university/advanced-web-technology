@@ -1,4 +1,3 @@
-/* Real Chromium checks: server rendering, browser mutations and five CORS faults. */
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
@@ -29,7 +28,7 @@ function launch(command, args, cwd, env = {}) {
 async function waitReady(url, child) {
   for (let attempt = 0; attempt < 150; attempt++) {
     if (child.exitCode !== null) throw new Error(child.output);
-    try { if ((await fetch(url)).ok) return; } catch { /* Wait until the server accepts connections. */ }
+    try { if ((await fetch(url)).ok) return; } catch {}
     await pause(200);
   }
   throw new Error('Server did not start: ' + child.output);
@@ -168,7 +167,6 @@ async function fault(variant, origin = 'http://localhost:3000') {
   else await textVisible(page, 'Could not submit the enrollment');
   const enrollmentEvents = network.filter((entry) => entry.url.endsWith('/enrollments'));
   assert.equal(enrollmentEvents.find((entry) => entry.method === 'OPTIONS').status, variant === 'no-cors' ? 405 : variant === 'python-error' ? 200 : 400);
-  // Chromium may create a provisional POST row even when preflight blocks sending it.
   assert.equal(enrollmentEvents.filter((entry) => entry.method === 'POST' && entry.status !== undefined).length, variant === 'python-error' ? 1 : 0);
   await page.goto(origin + '/filter');
   if (variant === 'no-methods') await page.locator('main li').nth(5).waitFor();

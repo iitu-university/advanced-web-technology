@@ -1,0 +1,22 @@
+test_bonus_configurable_origins (test_api.ApiTests.test_bonus_configurable_origins) ... ok
+test_catalog_filters_order_search_and_pagination (test_api.ApiTests.test_catalog_filters_order_search_and_pagination) ... ok
+test_concurrent_duplicate_enrollment_is_a_conflict (test_api.ApiTests.test_concurrent_duplicate_enrollment_is_a_conflict) ... ok
+test_concurrent_likes_do_not_lose_updates (test_api.ApiTests.test_concurrent_likes_do_not_lose_updates) ... ok
+test_cors_origins_and_json_preflight (test_api.ApiTests.test_cors_origins_and_json_preflight) ... ok
+test_create_student_and_enroll_with_server_timestamp (test_api.ApiTests.test_create_student_and_enroll_with_server_timestamp) ... ok
+test_database_deletion_rules (test_api.ApiTests.test_database_deletion_rules) ... ok
+test_five_required_error_cases_and_session_recovery (test_api.ApiTests.test_five_required_error_cases_and_session_recovery) ... ok
+test_join_statistics_keep_zero_counts (test_api.ApiTests.test_join_statistics_keep_zero_counts) ... ok
+test_like_is_committed_and_survives_a_new_engine (test_api.ApiTests.test_like_is_committed_and_survives_a_new_engine) ... ok
+test_migration_round_trip_with_existing_data (test_api.ApiTests.test_migration_round_trip_with_existing_data) ... ok
+test_migrations_can_recreate_the_entire_schema (test_api.ApiTests.test_migrations_can_recreate_the_entire_schema) ... ok
+test_missing_course_is_404 (test_api.ApiTests.test_missing_course_is_404) ... ok
+test_openapi_docs_and_camel_case (test_api.ApiTests.test_openapi_docs_and_camel_case) ... ok
+test_tied_likes_have_stable_pages (test_api.ApiTests.test_tied_likes_have_stable_pages) ... ok
+test_unknown_integrity_error_is_not_disguised_as_user_error (test_api.ApiTests.test_unknown_integrity_error_is_not_disguised_as_user_error) ... ok
+test_validation_and_retired_student_name_contract (test_api.ApiTests.test_validation_and_retired_student_name_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 4.007s
+
+OK

@@ -1,0 +1,138 @@
+$ alembic current
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Exit: 0
+
+$ alembic check
+FAILED: Target database is not up to date.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+ERROR [alembic.util.messaging] Target database is not up to date.
+Exit: 255
+
+$ alembic upgrade head
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 0001, create catalog tables
+Traceback (most recent call last):
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.DuplicateTable: relation "courses" already exists
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/bin/alembic", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/config.py", line 1039, in main
+    CommandLine(prog=prog).main(argv=argv)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/config.py", line 1029, in main
+    self.run_cmd(cfg, options)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/config.py", line 963, in run_cmd
+    fn(
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/command.py", line 487, in upgrade
+    script.run_env()
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/script/base.py", line 550, in run_env
+    util.load_python_file(self.dir, "env.py")
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 114, in load_python_file
+    module = load_module_py(module_id, path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 132, in load_module_py
+    spec.loader.exec_module(module)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/alembic/env.py", line 84, in <module>
+    run_migrations_online()
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/alembic/env.py", line 77, in run_migrations_online
+    context.run_migrations()
+  File "<string>", line 8, in run_migrations
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/runtime/environment.py", line 970, in run_migrations
+    self.get_context().run_migrations(**kw)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/runtime/migration.py", line 616, in run_migrations
+    step.migration_fn(**kw)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/alembic/versions/0001_create_catalog_tables.py", line 24, in upgrade
+    op.create_table('courses',
+  File "<string>", line 8, in create_table
+  File "<string>", line 3, in create_table
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/operations/ops.py", line 1323, in create_table
+    return operations.invoke(op)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/operations/base.py", line 448, in invoke
+    return fn(self, operation)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/operations/toimpl.py", line 139, in create_table
+    operations.impl.create_table(table, **kw)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 434, in create_table
+    self._exec(schema.CreateTable(table, **kw))
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 252, in _exec
+    return conn.execute(construct, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/sql/ddl.py", line 203, in _execute_on_connection
+    return connection._execute_ddl(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_ddl
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "/Users/mkdir/Desktop/advanced-web-technology/04-backend/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateTable) relation "courses" already exists
+[SQL:
+CREATE TABLE courses (
+	id TEXT NOT NULL,
+	title TEXT NOT NULL,
+	description TEXT NOT NULL,
+	credits INTEGER NOT NULL,
+	is_elective BOOLEAN DEFAULT false NOT NULL,
+	likes INTEGER DEFAULT 0 NOT NULL,
+	CONSTRAINT courses_pkey PRIMARY KEY (id),
+	CONSTRAINT courses_credits_check CHECK (credits > 0),
+	CONSTRAINT courses_likes_check CHECK (likes >= 0)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/21/f405)
+Exit: 1
+
+$ alembic stamp 0001
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running stamp_revision  -> 0001
+Exit: 0
+
+$ alembic current
+0001 (head)
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+Exit: 0
+
+$ alembic check
+No new upgrade operations detected.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+Exit: 0

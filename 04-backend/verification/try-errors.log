@@ -1,0 +1,6 @@
+ok   email already taken  409  {"detail":"Student with this email already exists"}
+ok   already enrolled     409  {"detail":"Student is already enrolled in this course"}
+ok   unknown course       404  {"detail":"Course not found"}
+ok   unknown student      404  {"detail":"Student not found"}
+ok   name too short       422  {"detail":[{"type":"string_too_short","loc":["body","name"],"msg":"String should have at least 2 cha
+5 of 5 as expected
