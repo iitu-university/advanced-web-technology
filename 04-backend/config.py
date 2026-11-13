@@ -6,6 +6,7 @@ class Settings(BaseSettings):
 
     database_url: str
     sql_echo: bool = False
+    graphql_introspection: bool = True
 
 
 settings = Settings()

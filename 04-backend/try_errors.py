@@ -1,31 +1,24 @@
-"""Check the five required error responses against a running, seeded API."""
-import os
+"""Check REST rule errors and their RFC 9457 representations."""
 
 import httpx
 
-
-BASE = os.getenv("API_BASE_URL", "http://localhost:8000").rstrip("/")
+BASE = "http://localhost:8000"
 CASES = [
-    ("email already taken", "/students", {"name": "Aigerim Two", "email": "aigerim@example.com"}, 409),
-    ("already enrolled", "/enrollments", {"courseId": "ai-integration", "studentId": 3}, 409),
-    ("unknown course", "/enrollments", {"courseId": "nope", "studentId": 3}, 404),
-    ("unknown student", "/enrollments", {"courseId": "web-security", "studentId": 999}, 404),
-    ("name too short", "/students", {"name": "N", "email": "n@example.com"}, 422),
+    ("email already taken", "/students", {"name": "Aigerim Two", "email": "aigerim@example.com"}, 409, "email-taken"),
+    ("already enrolled", "/enrollments", {"courseId": "ai-integration", "studentId": 3}, 409, "already-enrolled"),
+    ("unknown course", "/enrollments", {"courseId": "nope", "studentId": 3}, 404, "course-not-found"),
+    ("unknown student", "/enrollments", {"courseId": "web-security", "studentId": 999}, 404, "student-not-found"),
+    ("name too short", "/students", {"name": "N", "email": "n@example.com"}, 422, None),
 ]
 
-
-def main() -> None:
-    failed = 0
-    with httpx.Client(base_url=BASE, timeout=10) as client:
-        for title, path, body, expected in CASES:
-            response = client.post(path, json=body)
-            ok = response.status_code == expected
-            failed += not ok
-            print(f"{'ok  ' if ok else 'FAIL'} {title:<20} {response.status_code}  {response.text[:100]}")
-    print(f"{len(CASES) - failed} of {len(CASES)} as expected")
-    if failed:
-        raise SystemExit(1)
-
-
-if __name__ == "__main__":
-    main()
+failed = 0
+for title, path, body, status, slug in CASES:
+    response = httpx.post(BASE + path, json=body)
+    actual_slug = response.json().get("type", "").rsplit("/", 1)[-1]
+    expected_type = "application/problem+json" if slug else "application/json"
+    ok = response.status_code == status and response.headers["content-type"].startswith(expected_type) and (actual_slug == slug if slug else "detail" in response.json())
+    failed += not ok
+    print(f"{'ok  ' if ok else 'FAIL'} {title:<21} {response.status_code}  {response.headers.get('content-type')}  {actual_slug or '-'}")
+print(f"{len(CASES) - failed} of {len(CASES)} as expected")
+if failed:
+    raise SystemExit(1)

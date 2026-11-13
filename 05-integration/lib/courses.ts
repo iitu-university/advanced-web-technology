@@ -10,7 +10,7 @@ export type Course = {
 export type Enrollment = {
   id: number;
   courseId: string;
-  studentName: string;
+  studentId: number;
 };
 
 const API_URL = process.env.API_URL;

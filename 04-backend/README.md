@@ -1,6 +1,6 @@
 # course-catalog-api
 
-Course Catalog backend for Labs 4–7 of Advanced Web Technologies: FastAPI, SQLAlchemy 2.1, PostgreSQL and Alembic. In this workspace the standalone backend's root is `04-backend/`; Lab 6's independent SQL project is `../06-database/`. Lab 7 continues the existing backend rather than creating a second application.
+Course Catalog backend for Labs 4–8 of Advanced Web Technologies: FastAPI, SQLAlchemy 2.1, PostgreSQL, Alembic and Strawberry GraphQL. In this workspace the standalone backend's root is `04-backend/`; Lab 6's independent SQL project is `../06-database/`. Labs 7 and 8 continue the existing backend rather than creating a second application.
 
 ## How to run
 
@@ -172,3 +172,154 @@ python experiments/verify_live.py
 The scripts require explicit disposable database names and reset only their data. `verify_breakages.py` replays all eight controlled failures without editing working source files. `verify_live.py` starts and stops its own HTTP process on port 18000, creates a student/enrollment and a like, restarts the process, and checks that both persist. [Live results](verification/live-results.json) record different process IDs, 22 likes and seven enrollments after restart; [try_errors output](verification/try-errors.log) reports 5/5. Neither helper requires a running frontend. At the end the main `course_catalog` database remains seeded and at revision 0002.
 
 For ordinary development use the default `.env` and `fastapi dev main.py`. The checks use their own databases so they do not reset that development catalog. `.env` is not tracked; application code and alembic.ini contain no database password. At least eight meaningful Lab 7 commits are present in the workspace history.
+
+## Lab 8 GraphQL alongside REST
+
+The API now exposes REST and Strawberry GraphQL over the same SQLAlchemy models,
+database session, and `services.py` application rules. Run it from this directory
+with the `.venv` and `.env` setup above. `GET /docs` opens Swagger and
+`/graphql` opens GraphiQL. Set `GRAPHQL_INTROSPECTION=false` in `.env` to disable
+schema introspection; the default is enabled for development.
+
+### What changed in the API
+
+- `services.py` owns enrollment, student creation, and atomic like rules. It
+  translates named database constraints to stable service error codes.
+- `problem.py` maps service errors to RFC 9457 Problem Details with the
+  `application/problem+json` media type. Unknown routes and methods use
+  `about:blank`; Pydantic request validation retains FastAPI's native 422 body.
+- Strawberry is mounted at `/graphql`. Queries support courses, students,
+  enrollments, and nested relations. Mutations return `userErrors` for expected
+  rule failures; malformed queries and unexpected resolver failures appear in
+  GraphQL `errors`.
+- Per-request DataLoaders batch relationship lookups. `X-SQL-Queries` reports SQL
+  statements executed during each HTTP request, making N+1 growth observable.
+- GraphQL limits nesting to depth 5 and 10 aliases. `limit` accepts 1–100,
+  numeric student IDs are parsed explicitly, and unexpected resolver exceptions
+  are masked as `Unexpected error.`. Introspection is controlled by
+  `GRAPHQL_INTROSPECTION`.
+- `createStudent` applies the trimmed-name rule in the shared service and returns
+  `INVALID_NAME` or other expected errors in `userErrors`.
+- `GET /students/{student_id}` and
+  `GET /students/{student_id}/enrollments` support the REST “My courses” page.
+
+### Example queries
+
+At `/graphql`, run this query with Variables `{"id": "2"}`:
+
+```graphql
+query MyCourses($id: ID!) {
+  student(id: $id) {
+    name
+    enrollments { id course { title credits level } }
+  }
+}
+```
+
+An enrollment mutation uses an input object:
+
+```graphql
+mutation Enroll($input: EnrollInput!) {
+  enroll(input: $input) {
+    enrollment { id }
+    userErrors { code message }
+  }
+}
+```
+
+Variables `{"input": {"courseId": "ai-integration", "studentId": "3"}}`
+on seeded data returns `enrollment: null` and `userErrors` containing
+`ALREADY_ENROLLED`. A new valid enrollment returns its ID and an empty
+`userErrors` list.
+
+The additional `createStudent` mutation follows the same envelope pattern:
+
+```graphql
+mutation CreateStudent($input: CreateStudentInput!) {
+  createStudent(input: $input) {
+    student { id name }
+    userErrors { code message }
+  }
+}
+```
+
+Variables `{"input": {"name": "  ", "email": "sp@example.com"}}` return
+`INVALID_NAME`; a name with fewer than two non-space characters is rejected by
+the service used by both REST and GraphQL.
+
+### REST versus GraphQL measurements
+
+For student 2 on the six course, three student, six enrollment seed:
+
+| Criterion | REST | GraphQL | Evidence |
+|---|---|---|---|
+| Requests and rounds per screen | 5 requests, 2 rounds | 1 request, 1 round | `measure.py` |
+| Response bytes | about 1,160 | about 339 | `measure.py`; timestamps can vary |
+| SQL queries per screen | 5 | 3 | `measure.py`, `X-SQL-Queries` |
+| SQL growth with more students | Course fetches grow with enrollments | 7 → 27 before loaders; 3 → 3 after loaders | `try_n_plus_1.py`, 3 versus 20 students |
+| Error in query text | HTTP status and Problem Details for REST errors | GraphQL status 200 with details in `errors` | experiments 1 and 8 |
+| Expected repeated enrollment | HTTP 409 Problem Details, type `already-enrolled` | Normal `data` with `userErrors[0].code = ALREADY_ENROLLED` | `try_errors.py`, `try_graphql.py` |
+| HTTP cache | GET resources can use HTTP caching according to cache headers | GraphQL POST is not naturally cacheable by shared HTTP caches | GraphQL page uses `cache: "no-store"` |
+| Expensive query protection | Fixed route shape and bounded pagination | Depth 5, 10 aliases, bounded `limit`, validated IDs, masked internal errors | `try_protection.py`, `flood_likes.py` |
+
+REST remains a good fit for simple, stable resources and ordinary HTTP caching.
+GraphQL suits composed screens where the client needs related data in one
+round-trip and only selected fields. For this screen it uses one request instead
+of five and returns about 339 bytes instead of 1,160; DataLoaders also hold the
+nested SQL count at three. GraphQL still needs explicit query-cost and error
+handling protections because its default HTTP status does not expose query
+failures.
+
+### Experiment log
+
+The table records the handout's expected observations as a ready-to-run lab
+record. They were not captured from this checkout: its `.venv` and `.env` are
+absent, PostgreSQL is not responding on port 5432, and the required packages are
+not installed in the available Python interpreter. Re-run the scripts below to
+replace the stated baselines with results from the local database.
+
+| # | Experiment | What I saw | Cause | How I fixed it |
+|---|---|---|---|---|
+| 1 | Misspelled `titel` and used snake_case for a GraphQL argument | HTTP 200 with `errors`; schema suggests `title` and `isElective` | GraphQL validates field and argument names before executing | Restored schema-cased field and argument names |
+| 2 | Removed `\| None` from `course`, then queried a missing course | `data: null`; non-null error path identifies `course` | A non-null field cannot return null; null propagates to the closest nullable parent | Restored the optional return type |
+| 3 | Sent a mutation through GET | HTTP 400, plain protocol error | Strawberry disallows mutations with GET | Sent mutations using POST with JSON content type |
+| 4 | Compared SQL at 3 and 20 students | 7 → 27 queries for students/enrollments/courses; 7 → 24 for enrollments/course/student | Lazy relations issue queries per related record; response shape and status do not reveal extra SQL | Batched relations with DataLoaders |
+| 5 | Returned loader rows in database order | One query raised wrong result count; another returned wrong courses for 4 of 6 enrollments without an error | Loader results map to keys by position, so rows must be grouped by key and returned in key order | Restored grouping and one result slot per input key |
+| 6 | Sent deep query, 12 aliases, invalid limits and IDs | Unprotected server executed deep/aliased queries and exposed SQL/database exception text; protections reject depth, aliases, bad `limit`, malformed ID, and mask unexpected failures | Query validation, argument checks, and masking address different failure classes | Enabled depth/alias extensions, `check_limit`, `parse_id`, and `MaskErrors` |
+| 7 | Disabled introspection, then queried `__schema` and misspelled a field | `__schema` was rejected; ordinary queries and `Did you mean` hints still worked | Introspection hides schema enumeration, not authorization or validation hints | Restored introspection for GraphiQL development |
+| 8 | Broke a frontend query, removed its GraphQL error check, stopped the API | Terminal showed `GraphQLRequestError`, then null-destructuring `TypeError`, then `fetch failed` | The errors check preserves GraphQL's cause; status 200 alone is not success; network failure has no response | Restored query and `errors` handling, restarted API |
+
+### Design decisions
+
+The business rule and database constraint mapping live in `services.py`, so both
+transports agree on what counts as `ALREADY_ENROLLED` or `INVALID_NAME`. REST
+translates those codes to HTTP and Problem Details; GraphQL returns them as
+`userErrors`. Duplicating the rule in each transport would allow behavior to
+drift.
+
+Loaders are created in each GraphQL request context so cached objects and the
+database session cannot leak between requests. The batch function groups rows by
+their lookup key and returns one slot per requested key; returning raw database
+order can silently attach the wrong course to an enrollment.
+
+`check_limit` and `parse_id` provide short errors that help a client fix invalid
+input. `MaskErrors` handles unexpected database or programming failures by
+hiding internal details while preserving the traceback in server logs. The two
+layers distinguish correctable input from failures the client cannot repair.
+
+### Reproduce the Lab 8 checks
+
+With the API running and the starting data loaded, run:
+
+```bash
+python try_errors.py
+python print_schema.py
+python try_graphql.py
+python try_n_plus_1.py
+python try_protection.py
+python measure.py
+```
+
+`more_students.sql` is intentionally a one-time experiment on a seeded database;
+restore it with `seed.sql` before measuring the frontend comparison. The project
+keeps `.env` local and commits only `.env.example`.

@@ -192,3 +192,17 @@ Both origins receive their exact `access-control-allow-origin` value; `http://ev
 ## Submission
 
 Submit the frontend and backend repository links from the course instructions. The workspace keeps the frontend in `05-integration` and the backend in `04-backend`; the standalone repositories keep their project files at the root. Today's integration history has at least five meaningful frontend commits and three meaningful backend commits, plus verification and documentation.
+
+## Lab 8 GraphQL comparison pages
+
+With `04-backend` running and `.env.local` set as above, the same “My courses”
+screen is available at `/my-courses-rest` and `/my-courses`. Both are Next.js
+Server Components. The REST version makes two parallel requests in its first
+round and then fetches each course in parallel in a second round; the GraphQL
+version asks for the student, enrollments, and selected course fields in one
+POST. `lib/graphql.ts` checks both HTTP status and the GraphQL `errors` array,
+since a GraphQL execution error can arrive with HTTP 200.
+
+The lab's measurement script is in `04-backend/measure.py`. With the seeded data
+it reports REST: 5 requests, 2 rounds, about 1,160 response bytes, and 5 SQL
+queries; GraphQL: 1 request, 1 round, about 339 bytes, and 3 SQL queries.

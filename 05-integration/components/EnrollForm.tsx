@@ -9,7 +9,7 @@ type Status = "idle" | "sending" | "done" | "rejected" | "error";
 type ValidationError = { detail: { loc: (string | number)[]; msg: string; type: string }[] };
 
 export function EnrollForm({ courseId }: { courseId: string }) {
-  const [studentName, setStudentName] = useState("");
+  const [studentId, setStudentId] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
 
@@ -23,7 +23,7 @@ export function EnrollForm({ courseId }: { courseId: string }) {
       const res = await fetch(`${API}/enrollments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseId, studentName }),
+        body: JSON.stringify({ courseId, studentId: Number(studentId) }),
       });
       if (res.status === 422) {
         const rejected: ValidationError = await res.json();
@@ -42,11 +42,13 @@ export function EnrollForm({ courseId }: { courseId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-sm flex-col gap-2">
-      <label htmlFor="studentName">Your name</label>
+      <label htmlFor="studentId">Student ID</label>
       <input
-        id="studentName"
-        value={studentName}
-        onChange={(event) => setStudentName(event.target.value)}
+        id="studentId"
+        type="number"
+        min="1"
+        value={studentId}
+        onChange={(event) => setStudentId(event.target.value)}
         className="rounded-md border border-slate-300 px-3 py-2"
       />
       <button
