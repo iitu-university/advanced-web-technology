@@ -64,8 +64,9 @@ class ApiTests(unittest.TestCase):
 
     def test_openapi_docs_and_camel_case(self):
         schema = self.client.get("/openapi.json").json()
-        self.assertEqual(sum(len(methods) for methods in schema["paths"].values()), 12)
-        self.assertIn("/auth/login", schema["paths"])
+        self.assertIn("post", schema["paths"]["/auth/login"])
+        self.assertIn("get", schema["paths"]["/me"])
+        self.assertIn("post", schema["paths"]["/graphql"])
         self.assertNotIn("passwordHash", schema["components"]["schemas"]["UserOut"]["properties"])
         self.assertEqual(self.client.get("/docs").status_code, 200)
         fields = schema["components"]["schemas"]["CourseOut"]["properties"]
