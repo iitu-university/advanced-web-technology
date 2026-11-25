@@ -2,13 +2,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { getCourse } from "@/lib/courses";
+import { getSession } from "@/lib/dal";
 import { LikeButton } from "@/components/LikeButton";
 import { EnrollForm } from "@/components/EnrollForm";
 
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const course = await getCourse(id);
+  const [course, session] = await Promise.all([getCourse(id), getSession()]);
   if (!course) notFound();
+  const user = session?.user;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
@@ -22,7 +24,11 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
       </div>
       <section className="mt-8 border-t pt-8">
         <h2 className="mb-4 text-xl font-semibold">Enroll in this course</h2>
-        <EnrollForm courseId={course.id} />
+        {user ? (
+          <EnrollForm courseId={course.id} isAdmin={user.role === "admin"} />
+        ) : (
+          <Link href="/login" className={buttonVariants({ variant: "outline" })}>Log in to enroll</Link>
+        )}
       </section>
       <Link href="/courses" className={`${buttonVariants({ variant: "accent" })} mt-8`}>
         Back to catalog

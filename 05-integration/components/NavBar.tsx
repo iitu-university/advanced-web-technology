@@ -9,6 +9,7 @@ const links = [
   { href: "/courses", label: "Courses" },
   { href: "/filter", label: "Filter" },
   { href: "/about", label: "About" },
+  { href: "/account", label: "Account" },
 ];
 
 export function NavBar() {
