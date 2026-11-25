@@ -47,6 +47,19 @@ class Student(Base):
     )
 
 
+class User(Base):
+    __tablename__ = "users"
+    __table_args__ = (CheckConstraint("role IN ('student', 'admin')", name="role"),)
+
+    id: Mapped[int] = mapped_column(BigInteger, Identity(always=True), primary_key=True)
+    email: Mapped[str] = mapped_column(unique=True)
+    password_hash: Mapped[str]
+    role: Mapped[str] = mapped_column(server_default=text("'student'"))
+    student_id: Mapped[int | None] = mapped_column(
+        BigInteger, ForeignKey("students.id", ondelete="SET NULL"), unique=True
+    )
+
+
 class Enrollment(Base):
     __tablename__ = "enrollments"
     __table_args__ = (UniqueConstraint("course_id", "student_id"),)

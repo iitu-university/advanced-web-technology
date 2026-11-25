@@ -1,5 +1,6 @@
 BEGIN;
-TRUNCATE enrollments, students, courses RESTART IDENTITY;
+-- This also clears the demo accounts. Run seed_users.py after this file.
+TRUNCATE users, enrollments, students, courses RESTART IDENTITY;
 
 INSERT INTO courses (id, title, description, credits, is_elective, likes, level) VALUES
   ('modern-frontend', 'Modern Frontend: React & Next.js',
