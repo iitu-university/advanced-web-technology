@@ -1,36 +1,144 @@
 # course-catalog-api
 
-Course Catalog backend for Labs 4–8 of Advanced Web Technologies: FastAPI, SQLAlchemy 2.1, PostgreSQL, Alembic and Strawberry GraphQL. In this workspace the standalone backend's root is `04-backend/`; Lab 6's independent SQL project is `../06-database/`. Labs 7 and 8 continue the existing backend rather than creating a second application.
+Course Catalog backend for Labs 4–9 of Advanced Web Technologies. Lab 9 adds Argon2id passwords, JWT login, and role and ownership checks to the existing FastAPI, PostgreSQL and Strawberry GraphQL application. The [Next.js frontend](../05-integration/README.md#lab-9-login-and-account) runs from `05-integration/`.
 
 ## How to run
 
-Use **Python 3.11+** and **PostgreSQL 16+**. SQLAlchemy is constrained to the required 2.1 series. Once, as the PostgreSQL administrator, create the teaching role and database, or reuse the ones created in Lab 6:
+Use Python 3.11+ and the course's PostgreSQL 16+ environment. Once, as the PostgreSQL administrator, create the teaching role and database.
 
 ```sql
 CREATE ROLE catalog_app LOGIN PASSWORD 'change-me';
 CREATE DATABASE course_catalog OWNER catalog_app;
 ```
 
-From this project directory, for a **new, empty database**:
+From `04-backend`, for a new empty database:
 
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 cp .env.example .env
+python -c "from pathlib import Path; import secrets; p = Path('.env'); p.write_text(p.read_text().replace('SECRET_KEY=\n', 'SECRET_KEY=' + secrets.token_hex(32) + '\n', 1))"
 alembic upgrade head
 psql -h localhost -U catalog_app -d course_catalog -v ON_ERROR_STOP=1 -f seed.sql
+python seed_users.py
 alembic check
-python check_db.py
-python check_models.py
 fastapi dev main.py
 ```
 
-On Windows activate with `.venv\Scripts\Activate.ps1`. Adjust `DATABASE_URL` in `.env` for your server. An environment variable overrides the file. Run commands from the project root so settings find `.env` and Alembic finds `alembic.ini`. `.env` is ignored; `.env.example` contains only the public training address. `SQL_ECHO=true` enables SQL logging locally; its default is false, and it is intentionally absent from the example file.
+On Windows activate with `.venv\Scripts\Activate.ps1`. Adjust `DATABASE_URL` in `.env` for your server. Settings reject a missing key or a key shorter than 32 characters. For an existing Lab 8 database, `alembic upgrade head` applies `0003` while preserving existing catalog data. Run `python seed_users.py` if it contains the three seeded student profiles and you want demo accounts.
 
-Swagger: [http://localhost:8000/docs](http://localhost:8000/docs). In another terminal, with the same environment active, run `python try_errors.py`: on seeded data it prints **5 of 5 as expected** and exits nonzero if any status differs. The initial counts are **6 courses, 3 students, 6 enrollments**.
+Open [Swagger UI](http://localhost:8000/docs) or [GraphiQL](http://localhost:8000/graphql). In Swagger, enter the email as the username in **Authorize**. `POST /auth/login` accepts a URL-encoded form and returns `access_token` and `token_type`. `GET /me` returns `id`, `email`, `role` and `studentId`.
 
-`seed.sql` is a destructive training reset: it runs TRUNCATE with RESTART IDENTITY and then all three inserts inside one transaction. It resets likes and deletes added students/enrollments. Repeating it is supported. Do not run it against production data. `change-me` is a teaching password; real credentials stay outside Git.
+| Demo account | Role and linked profile | Password |
+|---|---|---|
+| `admin@example.com` | Admin, no student profile | `admin-demo-password` |
+| `aigerim@example.com` | Student 1, Aigerim Sadykova | `aigerim-demo-pass` |
+| `daniyar@example.com` | Student 2, Daniyar Bekov | `daniyar-demo-pass` |
+| `asel@example.com` | Student 3, Asel Omarova | `asel-demo-password` |
+
+Use demo credentials and seed scripts only with the teaching database. `seed.sql` resets users, likes, students and enrollments in one transaction. Follow it with `python seed_users.py`. The resulting counts are **6 courses, 3 students, 6 enrollments and 4 accounts**.
+
+## Lab 9 Access matrix
+
+`python try_access.py` verified all 14 applicable cells. The administrator account has no student profile. The script deletes only enrollment rows created by its successful checks and requires `web-security` to start with zero enrollments.
+
+| Request | Anonymous | Student | Administrator |
+|---|---:|---:|---:|
+| `GET /courses` | 200 | 200 | 200 |
+| `GET /me` | 401 | 200 | 200 |
+| `GET /enrollments` | 401 | 403 | 200 |
+| `POST /enrollments` for your own profile | 401 | 201 | — |
+| `POST /enrollments` for another profile | 401 | 403 | 201 |
+
+A REST `401` uses `application/problem+json` and `WWW-Authenticate: Bearer`. A REST `403` uses Problem Details without a challenge. Request validation returns FastAPI's `422` with `detail`. GraphQL field denials return HTTP `200` with `errors` and a field `path`. FastAPI returns `401` for an invalid bearer credential before GraphQL executes.
+
+## Lab 9 Open spots
+
+`python scan_routes.py` checks 11 REST routes and reports 8 available to guests. It discovers GET operations through OpenAPI and checks three known POST routes with invalid input or an absent ID. `python scan_graphql.py` checks nine read fields and inspects two mutation declarations in the local schema. The three protected fields were `Query.me`, `Query.students`, and `Student.email`.
+
+| Route or field | Verdict | Proposed treatment |
+|---|---|---|
+| `GET /` | By design. Public health response | Keep the public response minimal |
+| `GET /courses` | By design. Public catalog | Keep public with bounded pagination |
+| `GET /courses/{course_id}` | By design. Public course details | Keep public and select catalog fields |
+| `POST /courses/{course_id}/like` | Gap. Guests can change like counts | Authenticate and limit writes per account |
+| `POST /students` | Gap. Guests can create student rows | Restrict to administrators or a verified registration flow |
+| `GET /students/{student_id}` | Gap. Guests can see profile email | Require owner or administrator and limit fields |
+| `GET /students/{student_id}/enrollments` | Gap. Guests can read enrollment history | Require owner or administrator |
+| `GET /stats/courses` | By design. Counts without individual identities | Keep the response aggregated |
+| GraphQL `Query.courses` | By design. Public catalog | Keep public with a bounded limit |
+| GraphQL `Query.course` | By design. Public course details | Keep catalog fields public and guard private nested fields |
+| GraphQL `Query.student` | Gap. Guests can read individual names | Require owner or administrator for private profiles |
+| GraphQL `Query.enrollments` | Gap. Guests can read enrollment records | Require administrator access to the global list |
+| GraphQL `Course.enrollments` | Gap. Guests can see individual enrollments by course | Guard the field or publish counts only |
+| GraphQL `Student.enrollments` | Gap. Guests can see enrollment history | Put the owner check on the field |
+| GraphQL `Mutation.enroll` | Gap. No declared role or owner check for writes | Share the enrollment authorization rule across transports |
+| GraphQL `Mutation.likeCourse` | Gap. No declared authentication for writes | Share authentication and write limits across transports |
+
+The existing GraphQL `createStudent` mutation shares the student-creation service. Apply the same registration policy to it when tightening `POST /students`.
+
+## Lab 9 Threat table
+
+| Where | Risk | Control | Evidence |
+|---|---|---|---|
+| Login form | Failed logins can reveal registered email addresses | Same `401` message and one Argon2id verification per attempt | `try_auth.py`, experiment 2 |
+| Passwords and signing key | Database exposure threatens credentials. Key exposure undermines token trust | Salted Argon2id hashes and environment key validated at startup | `check_users.py`, experiment 1 |
+| Token and role | Stale roles or invalid credentials can grant access | Fixed algorithm and issuer, expiry and subject validation, account lookup per request | `try_tokens.py`, experiment 4 |
+| Object permissions | An account can request another student's data or writes | REST owner check and GraphQL field permission on `Student.email` | `try_access.py`, `try_graphql_access.py` |
+| Cookie and Next.js | Page JavaScript can read a token, or an invalid session can expose account data | HttpOnly, Secure, SameSite=Lax, and API verification in the data access layer | `npm run test:auth`, experiment 7 |
+| Logout and lifetime | An issued token can stay valid through its remaining lifetime | Cookie removal and a 15-minute token lifetime | Experiment 8 |
+
+Login attempt limits would need shared, expiring counters, for example in Redis, keyed by both source and normalized account identifier. A limit keyed only to email lets outsiders lock out an account. Shared counters enforce the same limit across API workers.
+
+For sign-out across devices, `token_version` fits the existing database lookup. A future logout-all endpoint would increment the version atomically and the API would compare the token version with the current user row. Per-device revocation would require individual session records or token identifiers with revocation state.
+
+## Lab 9 Experiment log
+
+The checks ran against an isolated local PostgreSQL 15.19 cluster with Python 3.12 and Next.js 16.4.0. Defensive checks replaced the handout's experiments that weaken controls. Migration tests covered upgrading populated revision `0002` and applying all three migrations to an empty database.
+
+| No. | Experiment | Observed | Explanation |
+|---:|---|---|---|
+| 1 | Start with an absent key and a short key. Hash one test password twice | Startup failed in both cases. Two different hashes both verified. Parameters were `m=65536,t=3,p=4` | Settings enforce key length and Argon2id generates a fresh salt per hash |
+| 2 | Alternate 40 failed logins per address on the working API | Median **38.0 ms** for the unknown address and **38.1 ms** for the known address | Both requests verify an Argon2id hash. These medians describe this run |
+| 3 | Validate application-issued JWT fixtures and malformed input | **9/9**. The valid fixture had `exp − iat = 900`. Expired or premature credentials, another issuer or signing key, invalid user IDs and malformed input were rejected | The verifier checks signature and claims before looking up the account |
+| 4 | Change an administrator to a student in the test database while keeping the issued token | `/me` reported `student` and `GET /enrollments` went from `200` to `403`. After account deletion, `/me` returned `401` | The application resolves the account and role from PostgreSQL per request |
+| 5 | Check REST enrollment for your own and another profile | Student self-enrollment `201`. Student acting for another profile `403`. Administrator acting for another profile `201` | The authorization check compares `studentId` with the authenticated account |
+| 6 | Request `Student.email` through direct and nested fields | The direct response preserved the name and returned `email: null` with path `student.email`. Nested results exposed two own emails and hid two others | The nullable field carries its permission on every path |
+| 7 | Open `/account` with a malformed session value. Inspect the cookie after a valid Chrome login | Invalid session redirected to `/login`. A valid session used HttpOnly, Secure, SameSite=Lax, path `/` and about 900 seconds of lifetime. `document.cookie` was empty | The data access layer checks the credential with the API. A token in `localStorage` would be readable by page JavaScript |
+| 8 | Log out in Chrome and revisit `/account` | The cookie disappeared and `/account` redirected to `/login` | The action removes the browser credential. The API validity of an issued JWT is governed by its `exp` claim |
+
+Run the checks from the backend directory. The HTTP scripts target a seeded API at `http://localhost:8000`.
+
+```bash
+python check_users.py          # 4 of 4
+python try_auth.py             # 6 of 6
+python try_tokens.py           # 9 of 9
+python try_timing.py           # 40 failed logins per address
+python try_access.py           # 14 of 14
+python try_errors.py           # 5 of 5
+python try_graphql_access.py   # 9 of 9
+python try_graphql.py          # 8 of 8
+python try_n_plus_1.py         # 4 SQL queries per selection
+python measure.py              # REST 5 requests and 5 SQL. GraphQL 1 request and 3 SQL
+python scan_routes.py
+python scan_graphql.py
+```
+
+To run the regression suite, create a PostgreSQL database owned by `catalog_app` and ending in `_test`. The suite resets its tables and exercises migration rollback.
+
+```bash
+TEST_DATABASE_URL=postgresql+psycopg://catalog_app:change-me@localhost:5432/course_catalog_test \
+  python -m unittest discover -s tests -v
+```
+
+## Lab 9 Decisions
+
+- The token carries a stable user ID. Reading one indexed account row per authenticated request adds a database query and makes account deletion and role changes effective on the next request.
+- `Student.email` is nullable and carries its own permission. A field error preserves the surrounding profile and the same rule applies when a student is reached through an enrollment.
+- `proxy.ts` redirects requests without a cookie before rendering. The data access layer verifies `/me` beside the data because a cookie can be expired, malformed or linked to a deleted user. The verified session also controls the server-side enrollment action.
+
+## Lab 7 SQLAlchemy and Alembic
 
 ### Adopt an existing Lab 6 database
 
@@ -44,9 +152,9 @@ alembic check
 python check_models.py
 ```
 
-Use **0001**, not `stamp head`, when adopting Lab 6 with the final two-migration checkout: Lab 6 has no level column. Stamping head would incorrectly mark the level migration as applied. `stamp` records a version without running DDL and does not validate the schema. The original adoption and expected failure are recorded in [adoption.log](verification/adoption.log).
+Stamp **0001** when adopting a database that still matches the Lab 6 schema. The subsequent upgrade adds `courses.level` and `users`. The original adoption is recorded in [adoption.log](verification/adoption.log).
 
-### Current local verification environment
+### Lab 7 verification environment
 
 Verification on **29 October 2026, Asia/Almaty**, used Python 3.12, SQLAlchemy **2.1.6**, Alembic **1.20.1**, psycopg **3.3.6**, Pydantic **2.14.2**, FastAPI **0.162.0**, and PostgreSQL **18.6**. The preinstalled PostgreSQL 15 was insufficient, so PostgreSQL 18 was built in `/tmp/catalog-pg18` and runs its own data directory on port **55432**. The local ignored `.env` points there; the portable `.env.example` retains the conventional port 5432.
 

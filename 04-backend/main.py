@@ -1,12 +1,12 @@
 import os
-from typing import Annotated, Literal
+from typing import Literal
 
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import func, select
-from sqlalchemy.orm import Session
 
-from db import get_db
+import auth
+from auth import AdminUser, CurrentUser, SessionDep, can_access_student
 from graphql_api import graphql_app
 from models import Course, Enrollment, Student
 import counter
@@ -20,6 +20,7 @@ from schemas import (
     EnrollmentOut,
     StudentIn,
     StudentOut,
+    UserOut,
 )
 
 
@@ -34,13 +35,18 @@ app.add_middleware(
 )
 counter.install(app)
 
-SessionDep = Annotated[Session, Depends(get_db)]
+app.include_router(auth.router)
 app.include_router(graphql_app, prefix="/graphql")
 
 
 @app.get("/")
 def read_root() -> dict[str, str]:
     return {"message": "Course Catalog API is running"}
+
+
+@app.get("/me", response_model=UserOut)
+def read_me(user: CurrentUser):
+    return user
 
 
 def pagination(
@@ -93,7 +99,9 @@ def create_student(data: StudentIn, db: SessionDep):
 
 
 @app.post("/enrollments", response_model=EnrollmentOut, status_code=201)
-def create_enrollment(data: EnrollmentIn, db: SessionDep):
+def create_enrollment(data: EnrollmentIn, db: SessionDep, user: CurrentUser):
+    if not can_access_student(user, data.student_id):
+        raise HTTPException(403, "You can enroll only yourself")
     return services.enroll(db, data.course_id, data.student_id)
 
 
@@ -115,7 +123,7 @@ def enrollment_details():
 
 
 @app.get("/enrollments", response_model=list[EnrollmentDetail])
-def list_enrollments(db: SessionDep):
+def list_enrollments(db: SessionDep, _: AdminUser):
     return db.execute(enrollment_details()).all()
 
 

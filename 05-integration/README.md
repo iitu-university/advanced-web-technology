@@ -1,4 +1,31 @@
-# Lab 5 Frontend and Backend Integration
+# Course Catalog Frontend
+
+## Lab 9 Login and account
+
+Start and seed the API using [the backend setup](../04-backend/README.md#how-to-run). From `05-integration`, with Node.js 20 or newer:
+
+```bash
+npm ci
+cp .env.example .env.local
+npm run dev -- --port 3000
+```
+
+Open [http://localhost:3000/account](http://localhost:3000/account). Sign in as `aigerim@example.com` with password `aigerim-demo-pass`. The account page displays the email and role and has a **Log out** button. The login and the course enrollment use Server Actions. The enrollment form takes the profile ID from the verified session for students and shows a student ID field to admins. The API checks role and ownership before writing.
+
+The login action sends a form to FastAPI and stores the returned JWT in the `session` cookie with HttpOnly, Secure, SameSite=Lax, path `/` and a max age of 900 seconds. Open the frontend on `localhost` in Chrome, or use HTTPS. `proxy.ts` redirects when the cookie is absent. The account page and enrollment action call `verifySession()`, which checks `GET /me` before using student data. Logout deletes the cookie and redirects to `/login`.
+
+With the seeded API and the Next.js server running, check the flow in Chromium:
+
+```bash
+npx playwright install chromium
+npm run test:auth
+```
+
+Use `BROWSER_CHANNEL=chrome npm run test:auth` to run it with an installed Chrome. The check covers incorrect credentials, account rendering, cookie flags and visibility, enrollment, the two Lab 8 comparison pages, logout, and rejection of a malformed session. See the [Lab 9 experiment log](../04-backend/README.md#lab-9-experiment-log) for results.
+
+## Lab 5 Frontend and backend integration
+
+The following Lab 5 notes and verification artifacts record the earlier in-memory backend and browser-to-API enrollment flow. Use the Lab 9 setup above for this checkout.
 
 Next.js renders the course catalog from FastAPI. The browser calls FastAPI directly for the SWR filter, likes, and enrollment. The backend uses camelCase JSON and keeps mutations in memory. This project continues the catalog from Labs 1–3 with the Lab 3 styles.
 
