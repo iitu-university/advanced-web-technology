@@ -20,10 +20,13 @@ os.environ["DATABASE_URL"] = TEST_URL
 
 from fastapi.testclient import TestClient
 
+import services
 from db import SessionLocal, engine
-from main import CONSTRAINT_ERRORS, app, raise_http_error
-from models import Course, Enrollment, Student
+from lab9_checks import ADMIN, authorization
+from main import app
+from models import Course, Student, User
 from schemas import EnrollmentIn, StudentIn
+from seed_users import seed_users
 
 ROOT = Path(__file__).resolve().parents[1]
 SEED = (ROOT / "seed.sql").read_text()
@@ -52,14 +55,18 @@ class ApiTests(unittest.TestCase):
 
     def setUp(self):
         seed()
+        seed_users()
         self.client = TestClient(app)
+        self.admin_headers = authorization(self.client, ADMIN)
 
     def tearDown(self):
         self.client.close()
 
     def test_openapi_docs_and_camel_case(self):
         schema = self.client.get("/openapi.json").json()
-        self.assertEqual(sum(len(methods) for methods in schema["paths"].values()), 8)
+        self.assertEqual(sum(len(methods) for methods in schema["paths"].values()), 12)
+        self.assertIn("/auth/login", schema["paths"])
+        self.assertNotIn("passwordHash", schema["components"]["schemas"]["UserOut"]["properties"])
         self.assertEqual(self.client.get("/docs").status_code, 200)
         fields = schema["components"]["schemas"]["CourseOut"]["properties"]
         self.assertIn("isElective", fields)
@@ -120,30 +127,30 @@ class ApiTests(unittest.TestCase):
         for method, path in [(self.client.get, "/courses/nope"), (self.client.post, "/courses/nope/like")]:
             response = method(path)
             self.assertEqual(response.status_code, 404)
-            self.assertEqual(response.json(), {"detail": "Course not found"})
+            self.assertEqual(response.json()["detail"], "Course not found")
 
     def test_create_student_and_enroll_with_server_timestamp(self):
         response = self.client.post("/students", json={"name": "Nurlan Abenov", "email": "nurlan@example.com"})
         self.assertEqual(response.status_code, 201)
         student_id = response.json()["id"]
         self.assertEqual(student_id, 4)
-        enrolled = self.client.post("/enrollments", json={"courseId": "web-security", "studentId": student_id})
+        enrolled = self.client.post("/enrollments", headers=self.admin_headers, json={"courseId": "web-security", "studentId": student_id})
         self.assertEqual(enrolled.status_code, 201)
         body = enrolled.json()
         self.assertEqual(set(body), {"id", "courseId", "studentId", "enrolledAt"})
         self.assertIsNotNone(datetime.fromisoformat(body["enrolledAt"]).tzinfo)
         self.assertEqual(body["studentId"], student_id)
-        rows = self.client.get("/enrollments").json()
+        rows = self.client.get("/enrollments", headers=self.admin_headers).json()
         self.assertEqual(rows[-1]["studentName"], "Nurlan Abenov")
         self.assertEqual(rows[-1]["courseTitle"], "Web Security Essentials")
 
     def test_five_required_error_cases_and_session_recovery(self):
         from try_errors import CASES
-        for title, path, body, expected in CASES:
+        for title, path, body, expected, _ in CASES:
             with self.subTest(title):
-                response = self.client.post(path, json=body)
+                response = self.client.post(path, headers=self.admin_headers, json=body)
                 self.assertEqual(response.status_code, expected)
-        self.assertEqual(len(self.client.get("/enrollments").json()), 6)
+        self.assertEqual(len(self.client.get("/enrollments", headers=self.admin_headers).json()), 6)
         created = self.client.post("/students", json={"name": "Valid User", "email": "valid@example.com"})
         self.assertEqual(created.status_code, 201)
         self.assertGreater(created.json()["id"], 4)
@@ -151,7 +158,7 @@ class ApiTests(unittest.TestCase):
     def test_validation_and_retired_student_name_contract(self):
         for body in [{"name": "A", "email": "a@example.com"}, {"name": "Dana", "email": "invalid"}]:
             self.assertEqual(self.client.post("/students", json=body).status_code, 422)
-        old = self.client.post("/enrollments", json={"courseId": "web-security", "studentName": "Dana"})
+        old = self.client.post("/enrollments", headers=self.admin_headers, json={"courseId": "web-security", "studentName": "Dana"})
         self.assertEqual(old.status_code, 422)
         self.assertEqual(old.json()["detail"][0]["loc"], ["body", "studentId"])
         self.assertEqual(EnrollmentIn(course_id="api-design", student_id=1).student_id, 1)
@@ -160,7 +167,7 @@ class ApiTests(unittest.TestCase):
     def test_concurrent_duplicate_enrollment_is_a_conflict(self):
         def enroll(_):
             with TestClient(app) as client:
-                return client.post("/enrollments", json={"courseId": "web-security", "studentId": 3}).status_code
+                return client.post("/enrollments", headers=self.admin_headers, json={"courseId": "web-security", "studentId": 3}).status_code
         with ThreadPoolExecutor(max_workers=2) as pool:
             self.assertEqual(sorted(pool.map(enroll, range(2))), [201, 409])
 
@@ -174,16 +181,14 @@ class ApiTests(unittest.TestCase):
             {"courseId": "databases-postgresql", "enrolled": 0},
             {"courseId": "web-security", "enrolled": 0},
         ])
-        self.assertEqual(sum(row["enrolled"] for row in stats), len(self.client.get("/enrollments").json()))
+        self.assertEqual(sum(row["enrolled"] for row in stats), len(self.client.get("/enrollments", headers=self.admin_headers).json()))
 
     def test_unknown_integrity_error_is_not_disguised_as_user_error(self):
         with SessionLocal() as db:
             db.add(Student(name="N", email="short@example.com"))
-            with self.assertRaises(IntegrityError) as rejected:
-                db.commit()
             with self.assertRaises(IntegrityError):
-                raise_http_error(rejected.exception)
-        with patch.dict(CONSTRAINT_ERRORS, {}, clear=True), TestClient(app, raise_server_exceptions=False) as client:
+                services.commit(db)
+        with patch.dict(services.CONSTRAINT_ERRORS, {}, clear=True), TestClient(app, raise_server_exceptions=False) as client:
             response = client.post("/students", json={"name": "Duplicate", "email": "aigerim@example.com"})
             self.assertEqual(response.status_code, 500)
 
@@ -195,7 +200,24 @@ class ApiTests(unittest.TestCase):
         with SessionLocal() as db:
             db.delete(db.get(Student, 2))
             db.commit()
-        self.assertEqual(len(self.client.get("/enrollments").json()), 3)
+            self.assertIsNone(db.scalar(select(User).where(User.email == "daniyar@example.com")).student_id)
+        self.assertEqual(len(self.client.get("/enrollments", headers=self.admin_headers).json()), 3)
+
+    def test_existing_access_token_uses_latest_role_and_requires_existing_user(self):
+        self.assertEqual(self.client.get("/enrollments", headers=self.admin_headers).status_code, 200)
+        with SessionLocal.begin() as db:
+            db.scalar(select(User).where(User.email == ADMIN[0])).role = "student"
+        profile = self.client.get("/me", headers=self.admin_headers)
+        self.assertEqual(profile.json()["role"], "student")
+        denied = self.client.get("/enrollments", headers=self.admin_headers)
+        self.assertEqual(denied.status_code, 403)
+        self.assertNotIn("www-authenticate", denied.headers)
+
+        with SessionLocal.begin() as db:
+            db.delete(db.scalar(select(User).where(User.email == ADMIN[0])))
+        missing = self.client.get("/me", headers=self.admin_headers)
+        self.assertEqual(missing.status_code, 401)
+        self.assertEqual(missing.headers["www-authenticate"], "Bearer")
 
     def test_cors_origins_and_json_preflight(self):
         allowed = self.client.get("/", headers={"Origin": "http://localhost:3000"})
@@ -221,12 +243,13 @@ class ApiTests(unittest.TestCase):
     def test_migration_round_trip_with_existing_data(self):
         before = self.client.get("/courses").json()
         self.assertIn("No new upgrade operations", alembic("check"))
-        alembic("downgrade", "-1")
-        self.assertNotIn("level", {c["name"] for c in inspect(engine).get_columns("courses")})
+        alembic("downgrade", "0002")
+        self.assertNotIn("users", inspect(engine).get_table_names())
+        self.assertIn("level", {c["name"] for c in inspect(engine).get_columns("courses")})
         alembic("upgrade", "head")
         self.assertEqual(self.client.get("/courses").json(), before)
-        self.assertIn("0002 (head)", alembic("current"))
-        self.assertEqual(alembic("heads").strip(), "0002 (head)")
+        self.assertIn("0003 (head)", alembic("current"))
+        self.assertEqual(alembic("heads").strip(), "0003 (head)")
         self.assertIn("No new upgrade operations", alembic("check"))
 
     def test_migrations_can_recreate_the_entire_schema(self):
@@ -234,6 +257,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(inspect(engine).get_table_names(), ["alembic_version"])
         alembic("upgrade", "head")
         seed()
+        seed_users()
         self.assertEqual(len(self.client.get("/courses").json()), 6)
         self.assertIn("No new upgrade operations", alembic("check"))
 

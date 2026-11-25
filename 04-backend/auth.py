@@ -62,3 +62,16 @@ def get_current_user(user: Annotated[User | None, Depends(get_optional_user)]) -
 
 
 CurrentUser = Annotated[User, Depends(get_current_user)]
+
+
+def require_admin(user: CurrentUser) -> User:
+    if user.role != "admin":
+        raise HTTPException(403, "Admin role required")
+    return user
+
+
+AdminUser = Annotated[User, Depends(require_admin)]
+
+
+def can_access_student(user: User, student_id: int) -> bool:
+    return user.role == "admin" or user.student_id == student_id
